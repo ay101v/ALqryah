@@ -5,133 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>بلدية القرية — تسجيل الدخول</title>
 
-  <meta name="description" content="نظام تسجيل دخول بلدية القرية" />
-
-  <!-- الخط -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- ملفاتك -->
   <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="login.css">
-
-  <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      background: #0f172a;
-      color: white;
-    }
-
-    .login-bg {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .login-card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      width: 320px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .login-logo {
-      font-size: 40px;
-      text-align: center;
-    }
-
-    .login-title {
-      text-align: center;
-      margin: 10px 0;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #3b82f6;
-      color: white;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #2563eb;
-    }
-
-    .login-footer {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-  </style>
 </head>
 
 <body>
 
-  <div class="login-bg">
+  <div id="toast-container"></div>
 
+  <div class="login-bg">
     <div class="login-card">
 
       <div class="login-logo">🏛️</div>
 
       <h1 class="login-title">بلدية القرية</h1>
-      <p style="text-align:center;">تسجيل الدخول</p>
+      <p class="login-sub">تسجيل الدخول إلى نظام الإدارة</p>
 
-      <form id="login-form">
+      <form id="login-form" class="login-form" autocomplete="off">
 
         <div class="form-group">
-          <input id="username" class="form-input" type="text" placeholder="اسم المستخدم" required>
+          <label class="form-label">اسم المستخدم</label>
+          <input id="username" class="form-input" type="text" required>
         </div>
 
         <div class="form-group">
-          <input id="password" class="form-input" type="password" placeholder="كلمة المرور" required>
+          <label class="form-label">كلمة المرور</label>
+          <input id="password" class="form-input" type="password" required>
         </div>
 
-        <button class="btn" type="submit">دخول</button>
+        <div id="login-error" class="login-error"></div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%">
+          تسجيل الدخول
+        </button>
 
       </form>
 
-      <div class="login-footer">للموظفين فقط</div>
+      <div class="login-footer">للموظفين المخوّلين فقط</div>
 
     </div>
-
   </div>
 
+  <!-- 👇 هذا مهم لا تحذفه -->
+  <script src="app.js"></script>
+
   <script>
-    function initLogin() {
-      const form = document.getElementById("login-form");
-
-      form.addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        const user = document.getElementById("username").value;
-        const pass = document.getElementById("password").value;
-
-        if(user === "admin" && pass === "1234") {
-          alert("تم تسجيل الدخول بنجاح ✅");
-        } else {
-          alert("خطأ في البيانات ❌");
-        }
-      });
+    // لا نخرب سكربتك الأصلي، فقط نتأكد أنه يشتغل
+    if (typeof initLogin === "function") {
+      initLogin();
     }
-
-    initLogin();
   </script>
 
 </body>
