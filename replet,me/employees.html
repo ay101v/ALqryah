@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بلدية القرية — الموظفون</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="employees.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">
+        <div class="navbar-logo">🏛️</div>
+        <span class="navbar-title">بلدية القرية</span>
+      </div>
+      <div class="navbar-links">
+        <a href="dashboard.html">📊 لوحة التحكم</a>
+        <a href="residents.html">👥 السكان</a>
+        <a href="vehicles.html">🚗 المركبات</a>
+        <a href="employees.html">👔 الموظفون</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-user">مرحباً <span id="nav-username"></span></div>
+        <button class="btn-logout">🚪 خروج</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="page-header-row">
+      <div class="page-header">
+        <h1>الموظفون والصلاحيات</h1>
+        <p>إدارة مستخدمي النظام وصلاحيات الوصول</p>
+      </div>
+      <button id="btn-add-employee" class="btn btn-primary">➕ إضافة موظف</button>
+    </div>
+
+    <div id="employees-list" class="employees-list"></div>
+  </div>
+
+  <!-- مودال: إضافة موظف -->
+  <div id="add-employee-modal" class="modal-overlay">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>إضافة موظف جديد</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="employee-form">
+          <div class="form-group" style="margin-bottom:14px">
+            <label class="form-label">اسم المستخدم *</label>
+            <input id="e-username" class="form-input" placeholder="مثال: clerk2" required minlength="3">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label class="form-label">كلمة المرور *</label>
+            <input id="e-password" class="form-input" type="password" placeholder="كلمة مرور قوية" required minlength="6">
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label class="form-label">الصلاحية *</label>
+            <select id="e-role" class="form-select" required>
+              <option value="clerk">موظف (صلاحية عادية)</option>
+              <option value="admin">مسؤول (صلاحية كاملة)</option>
+            </select>
+          </div>
+          <div class="modal-footer" style="padding:0;border:none">
+            <button type="button" class="btn btn-outline modal-close">إلغاء</button>
+            <button type="submit" class="btn btn-primary">✅ إضافة</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>initEmployees();</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.employees-list {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  max-width: 900px;
+}
+@media (max-width: 640px) { .employees-list { grid-template-columns: 1fr; } }
+
+.employee-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px; transition: all 0.2s;
+}
+.employee-card:hover { border-color: var(--border-hover); }
+
+.emp-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.emp-admin {
+  background: rgba(124,58,237,0.15);
+  border-color: rgba(124,58,237,0.4);
+}
+.emp-clerk { background: var(--bg-card2); }
+
+.emp-info { flex: 1; min-width: 0; }
+.emp-name { font-size: 16px; font-weight: 700; }
+.emp-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+.emp-actions {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
