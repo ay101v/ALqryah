@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بلدية القرية — المركبات</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="vehicles.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">
+        <div class="navbar-logo">🏛️</div>
+        <span class="navbar-title">بلدية القرية</span>
+      </div>
+      <div class="navbar-links">
+        <a href="dashboard.html">📊 لوحة التحكم</a>
+        <a href="residents.html">👥 السكان</a>
+        <a href="vehicles.html">🚗 المركبات</a>
+        <a href="employees.html">👔 الموظفون</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-user">مرحباً <span id="nav-username"></span></div>
+        <button class="btn-logout">🚪 خروج</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="page-header-row">
+      <div class="page-header">
+        <h1>سجل المركبات</h1>
+        <p>تتبع المركبات المسجلة وأصحابها ولوحات الترخيص</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input id="vehicle-search" type="text" placeholder="ابحث بالاسم أو اللوحة أو المالك...">
+        </div>
+        <button id="btn-add-vehicle" class="btn btn-primary">➕ تسجيل مركبة</button>
+      </div>
+    </div>
+
+    <div id="vehicles-grid" class="grid-3 vehicles-grid"></div>
+  </div>
+
+  <button id="fab-add-vehicle" class="fab" title="إضافة مركبة">➕</button>
+
+  <!-- مودال: عرض تفاصيل المركبة -->
+  <div id="view-vehicle-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>تفاصيل المركبة</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="view-vehicle-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال: إضافة مركبة -->
+  <div id="add-vehicle-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>تسجيل مركبة جديدة</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="vehicle-form">
+          <div class="form-section">
+            <div class="form-section-title">بيانات المركبة</div>
+            <div class="grid-2" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">الماركة والموديل *</label>
+                <input id="v-vehicleName" class="form-input" placeholder="تويوتا كامري" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم اللوحة *</label>
+                <input id="v-plateNumber" class="form-input" placeholder="ABC-123" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الهيكل *</label>
+                <input id="v-chassisNumber" class="form-input" placeholder="CH123456" required>
+              </div>
+              <div class="grid-2" style="gap:10px">
+                <div class="form-group">
+                  <label class="form-label">اللون الخارجي *</label>
+                  <input id="v-exteriorColor" class="form-input" placeholder="أبيض" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">اللون الداخلي *</label>
+                  <input id="v-interiorColor" class="form-input" placeholder="بيج" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">بيانات المالك</div>
+            <div class="grid-2" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">اسم المالك *</label>
+                <input id="v-ownerName" class="form-input" placeholder="محمد عبدالله" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الهوية (للربط التلقائي) *</label>
+                <input id="v-ownerNationalId" class="form-input" placeholder="1234567890" required>
+              </div>
+              <div class="form-group" style="grid-column:1/-1">
+                <label class="form-label">رقم الجوال *</label>
+                <input id="v-phoneNumber" class="form-input" placeholder="0500000000" required>
+              </div>
+            </div>
+            <div class="link-notice">
+              💡 إذا تطابق رقم الهوية مع أحد السكان المسجلين، سيتم ربط المركبة بملفه تلقائياً
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">صورة المركبة (اختياري)</div>
+            <div class="photo-upload">
+              <input type="file" id="vehicle-img-input" accept="image/*">
+              <div class="photo-upload-icon">📷</div>
+              <div class="photo-upload-text">اضغط لاختيار صورة المركبة</div>
+              <div class="photo-upload-sub">اختياري — يساعد في التعرف على المركبة</div>
+            </div>
+            <img id="vehicle-img-preview" class="photo-preview" style="display:none">
+          </div>
+
+          <div class="modal-footer" style="padding:0;border:none;margin-top:8px">
+            <button type="button" class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button type="submit" class="btn btn-primary">🚗 تسجيل المركبة</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    initVehicles();
+    document.querySelectorAll('.modal-close-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+      });
+    });
+  </script>
+</body>
+</html>

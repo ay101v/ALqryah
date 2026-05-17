@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بلدية القرية — السكان</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="residents.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">
+        <div class="navbar-logo">🏛️</div>
+        <span class="navbar-title">بلدية القرية</span>
+      </div>
+      <div class="navbar-links">
+        <a href="/dashboard.html">📊 لوحة التحكم</a>
+        <a href="/residents.html">👥 السكان</a>
+        <a href="/vehicles.html">🚗 المركبات</a>
+        <a href="/employees.html">👔 الموظفون</a>
+      </div>
+      <div class="navbar-right">
+        <div class="navbar-user">مرحباً <span id="nav-username"></span></div>
+        <button class="btn-logout">🚪 خروج</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="page-header-row">
+      <div class="page-header">
+        <h1>سجل السكان</h1>
+        <p>إدارة المواطنين والأسر والبيانات الديموغرافية</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input id="resident-search" type="text" placeholder="ابحث بالاسم أو الهوية أو العنوان...">
+        </div>
+        <button id="btn-add-resident" class="btn btn-primary">➕ إضافة شخص</button>
+      </div>
+    </div>
+
+    <div id="residents-grid" class="grid-4 residents-grid"></div>
+  </div>
+
+  <button id="fab-add-resident" class="fab" title="إضافة شخص">➕</button>
+
+  <!-- مودال: عرض تفاصيل الساكن -->
+  <div id="view-resident-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>تفاصيل الساكن</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="view-resident-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال: إضافة / تعديل ساكن -->
+  <div id="add-resident-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="resident-modal-title">تسجيل ساكن جديد</h2>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="resident-form">
+          <div class="form-section">
+            <div class="form-section-title">البيانات الشخصية</div>
+            <div class="grid-2" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">الاسم الكامل *</label>
+                <input id="r-fullName" class="form-input" placeholder="محمد عبدالله" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">اسم الأب *</label>
+                <input id="r-fatherName" class="form-input" placeholder="عبدالله محمد" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الهوية *</label>
+                <input id="r-nationalId" class="form-input" placeholder="1234567890" required>
+              </div>
+              <div class="grid-2" style="gap:10px">
+                <div class="form-group">
+                  <label class="form-label">العمر *</label>
+                  <input id="r-age" class="form-input" type="number" min="0" max="120" placeholder="30" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">الجنس *</label>
+                  <select id="r-gender" class="form-select" required>
+                    <option value="male">ذكر</option>
+                    <option value="female">أنثى</option>
+                    <option value="child">طفل</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">بيانات العنوان</div>
+            <div class="grid-3" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">المنطقة *</label>
+                <input id="r-address" class="form-input" placeholder="قطاع أ" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">اسم الشارع *</label>
+                <input id="r-streetName" class="form-input" placeholder="شارع الزيتون" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم المنزل *</label>
+                <input id="r-houseNumber" class="form-input" placeholder="12" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">المهنة</div>
+            <div class="grid-2" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">الوظيفة *</label>
+                <input id="r-job" class="form-input" placeholder="معلم" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">جهة العمل *</label>
+                <input id="r-workplace" class="form-input" placeholder="مدرسة القرية" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">الصور (اختياري)</div>
+            <div class="grid-2" style="gap:14px">
+              <div class="form-group">
+                <label class="form-label">صورة الشخص</label>
+                <div class="photo-upload">
+                  <input type="file" id="photo-input" accept="image/*">
+                  <div class="photo-upload-icon">🤳</div>
+                  <div class="photo-upload-text">اضغط لاختيار صورة</div>
+                  <div class="photo-upload-sub">يفضل صورة شخصية واضحة</div>
+                </div>
+                <img id="photo-preview" class="avatar-preview" style="display:none">
+              </div>
+              <div class="form-group">
+                <label class="form-label">صورة الهوية</label>
+                <div class="photo-upload">
+                  <input type="file" id="id-photo-input" accept="image/*">
+                  <div class="photo-upload-icon">🪪</div>
+                  <div class="photo-upload-text">اضغط لرفع صورة الهوية</div>
+                  <div class="photo-upload-sub">صورة واضحة للوجهتين</div>
+                </div>
+                <img id="id-photo-preview" class="photo-preview" style="display:none">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding:0;border:none;margin-top:8px">
+            <button type="button" class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button type="submit" class="btn btn-primary">💾 حفظ السجل</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    initResidents();
+    document.querySelectorAll('.modal-close-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+      });
+    });
+  </script>
+</body>
+</html>
