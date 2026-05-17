@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بلدية القرية — الموظفون</title>
+  <title>بلدية القرية — لوحة التحكم</title>
   <link rel="stylesheet" href="global.css">
-  <link rel="stylesheet" href="employees.css">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
   <div id="toast-container"></div>
@@ -30,51 +30,83 @@
   </nav>
 
   <div class="page-content">
-    <div class="page-header-row">
-      <div class="page-header">
-        <h1>الموظفون والصلاحيات</h1>
-        <p>إدارة مستخدمي النظام وصلاحيات الوصول</p>
-      </div>
-      <button id="btn-add-employee" class="btn btn-primary">➕ إضافة موظف</button>
+    <div class="page-header">
+      <h1>لوحة التحكم</h1>
+      <p>نظرة عامة على إحصائيات البلدية والنشاط الأخير</p>
     </div>
 
-    <div id="employees-list" class="employees-list"></div>
-  </div>
-
-  <!-- مودال: إضافة موظف -->
-  <div id="add-employee-modal" class="modal-overlay">
-    <div class="modal modal-sm">
-      <div class="modal-header">
-        <h2>إضافة موظف جديد</h2>
-        <button class="modal-close">✕</button>
+    <!-- بطاقات الإحصاء -->
+    <div class="grid-6 stats-grid">
+      <div class="stat-card card">
+        <div class="stat-emoji">👥</div>
+        <div class="stat-val" id="stat-total">—</div>
+        <div class="stat-label">إجمالي السكان</div>
       </div>
-      <div class="modal-body">
-        <form id="employee-form">
-          <div class="form-group" style="margin-bottom:14px">
-            <label class="form-label">اسم المستخدم *</label>
-            <input id="e-username" class="form-input" placeholder="مثال: clerk2" required minlength="3">
+      <div class="stat-card card">
+        <div class="stat-emoji">👨</div>
+        <div class="stat-val" id="stat-male">—</div>
+        <div class="stat-label">ذكور</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-emoji">👩</div>
+        <div class="stat-val" id="stat-female">—</div>
+        <div class="stat-label">إناث</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-emoji">🧒</div>
+        <div class="stat-val" id="stat-child">—</div>
+        <div class="stat-label">أطفال</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-emoji">🚗</div>
+        <div class="stat-val" id="stat-vehicles">—</div>
+        <div class="stat-label">المركبات</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-emoji">👔</div>
+        <div class="stat-val" id="stat-employees">—</div>
+        <div class="stat-label">الموظفون</div>
+      </div>
+    </div>
+
+    <!-- القسم السفلي -->
+    <div class="dash-bottom">
+      <div class="card recent-card">
+        <div class="recent-header">
+          <span>السكان المضافون مؤخراً</span>
+        </div>
+        <div id="recent-residents"></div>
+      </div>
+
+      <div class="card quick-card">
+        <div class="quick-header">إجراءات سريعة</div>
+        <p class="quick-sub">استخدم شريط التنقل للوصول إلى الأقسام وإضافة سجلات جديدة.</p>
+        <a href="residents.html" class="quick-item">
+          <span class="qi-icon">👥</span>
+          <div>
+            <div class="qi-title">إدارة السكان</div>
+            <div class="qi-sub">عرض وإضافة وتعديل سجلات السكان</div>
           </div>
-          <div class="form-group" style="margin-bottom:14px">
-            <label class="form-label">كلمة المرور *</label>
-            <input id="e-password" class="form-input" type="password" placeholder="كلمة مرور قوية" required minlength="6">
+        </a>
+        <a href="vehicles.html" class="quick-item">
+          <span class="qi-icon">🚗</span>
+          <div>
+            <div class="qi-title">إدارة المركبات</div>
+            <div class="qi-sub">تتبع المركبات المسجلة وأصحابها</div>
           </div>
-          <div class="form-group" style="margin-bottom:20px">
-            <label class="form-label">الصلاحية *</label>
-            <select id="e-role" class="form-select" required>
-              <option value="clerk">موظف (صلاحية عادية)</option>
-              <option value="admin">مسؤول (صلاحية كاملة)</option>
-            </select>
+        </a>
+        <a href="employees.html" class="quick-item">
+          <span class="qi-icon">👔</span>
+          <div>
+            <div class="qi-title">الموظفون</div>
+            <div class="qi-sub">إدارة حسابات الدخول والصلاحيات</div>
           </div>
-          <div class="modal-footer" style="padding:0;border:none">
-            <button type="button" class="btn btn-outline modal-close">إلغاء</button>
-            <button type="submit" class="btn btn-primary">✅ إضافة</button>
-          </div>
-        </form>
+        </a>
       </div>
     </div>
   </div>
 
   <script src="app.js"></script>
-  <script>initEmployees();</script>
+  <script>initDashboard();</script>
 </body>
 </html>
